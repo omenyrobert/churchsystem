@@ -9,6 +9,9 @@ use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\IncomeTypesController;
 use App\Http\Controllers\IncomesController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\MinistryController;
+use App\Http\Controllers\MinistryPositionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,8 +34,8 @@ Route::prefix('members')->group(function(){
     Route::get('/', [MemberController::class, 'index'])->name('member.index');
     Route::post('/store', [MemberController::class, 'store'])->name('member.store');
     Route::get('/show/{id}', [MemberController::class, 'show'])->name('member.show');
-    Route::get('/edit/{member}', [MemberController::class, 'edit'])->name('member.edit');
-    Route::put('/update/{member}', [MemberController::class, 'update'])->name('member.update');
+    Route::get('/edit/{id}', [MemberController::class, 'edit'])->name('member.edit');
+    Route::put('/update/{id}', [MemberController::class, 'update'])->name('member.update');
     Route::post('/destroy/{member}', [MemberController::class, 'destroy'])->name('member.destroy');
     Route::get('/create',[MemberController::class,'create'])->name('member.create');
 });
@@ -98,3 +101,4 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::get('/ministry-positions',[MinistryPositionController::class,'ministry_positions']);

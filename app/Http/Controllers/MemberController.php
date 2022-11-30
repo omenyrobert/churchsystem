@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Models\MinistryTypes;
-use App\Models\MemberMinistry;
-use App\Models\MemberPosition;
 use App\Models\ChurchPositions;
+use App\Models\MinistryPosition;
 
 class MemberController extends Controller
 {
@@ -46,11 +45,12 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request->ministry);
         $request->validate([
             'full_name'=>'required',	
         ]);
 
-        
+        $input_url = null;
 	
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
@@ -77,24 +77,13 @@ class MemberController extends Controller
         ]);
 
         if ($member) {
-            if(count($request->ministries) > 0){
-                foreach($request->ministries as $ministry){
-                    MemberMinistry::create([
-                        'member_id' => $member->id,
-                        'ministry_id' => $ministry
-                    ]);
-                }
+            for($i = 0; $i < count($request->ministry); $i++){
+                MinistryPosition::create([
+                    'member_id' => $member->id,
+                    'ministry_id' =>  $request->ministry[$i],
+                    'position_id' => $request->position[$i]
+                ]);
             }
-
-            if(count($request->positions) > 0){
-                foreach($request->positions as $position){
-                    MemberPosition::create([
-                        'member_id' => $member->id,
-                        'position_id' => $position
-                    ]);
-                }
-            }
-
         }
       
         return redirect()->route('member.index')
@@ -110,19 +99,16 @@ class MemberController extends Controller
     public function show($id)
     {
         $member = Member::find($id);
-        $ministries = MemberMinistry::where('member_id',$id)->get();
-        $member_ministries = [];
-        foreach($ministries as $ministry){
-            $member_ministries[] = MinistryTypes::find($ministry->ministry_id);
+        $min_pos = [];
+        $ministry_position = MinistryPosition::where('member_id',$id)->get();
+        foreach($ministry_position as $data){
+            $response = (object)[
+                'ministry' => MinistryTypes::where('id',$data->ministry_id)->first(['id','ministry']),
+                'position' => ChurchPositions::where('id',$data->position_id)->first(['id','position'])
+            ];
+            $min_pos[] = $response;
         }
-        $member->ministries = $member_ministries;
-
-        $positions = MemberPosition::where('member_id',$id)->get();
-        $member_positions = [];
-        foreach($ministries as $ministry){
-            $member_positions[] = ChurchPositions::find($ministry->ministry_id);
-        }
-        $member->positions = $member_positions;
+        $member->ministries = $min_pos;
         return view('members.show',compact('member'));
     }
 
@@ -132,8 +118,19 @@ class MemberController extends Controller
      * @param  \App\Models\member  $member
      * @return \Illuminate\Http\Response
      */
-    public function edit(member $member)
+    public function edit($id)
     {
+        $member = Member::find($id);
+        $min_pos = [];
+        $ministry_position = MinistryPosition::where('member_id',$id)->get();
+        foreach($ministry_position as $data){
+            $response = (object)[
+                'ministry' => MinistryTypes::where('id',$data->ministry_id)->first(['id','ministry']),
+                'position' => ChurchPositions::where('id',$data->position_id)->first(['id','position'])
+            ];
+            $min_pos[] = $response;
+        }
+        $member->ministries = $min_pos;
         return view('members.edit',compact('member'));
     }
 
@@ -144,32 +141,52 @@ class MemberController extends Controller
      * @param  \App\Models\member  $member
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, member $member)
+    public function update($id)
     {
-        //
-        $request->validate([
-            'full_name'=>'required',	
-            'contact1'=> 'required',
-            // 'photo' => 'max:2048|nullable|mimes:jpg,png,jpeg',
-            // 'contract' => 'max:2048|nullable|mimes:jpg,png,jpeg,pdf'
+        request()->validate([
+            'full_name'=>'required'
         ]);
-        $input = $request->all();
 
-        // if ($request->has('photo')) {
-        //     $photo = $request->file('photo');
-        //     $destinationPath = 'images/';
-        //     $profileImage = date('YmdHis') . "." . $photo->getmemberOriginalExtension();
-        //     $photo->move($destinationPath, $profileImage);
-        //     $input['photo'] = "$profileImage";
-        // }
-        // if ($contract = $request->file('contract')) {
-        //     $destinationPath = 'images/';
-        //     $profileImage = date('YmdHis') . "." . $contract->getmemberOriginalExtension();
-        //     $contract->move($destinationPath, $profileImage);
-        //     $input['contract'] = "$profileImage";
-        // }
+        $member = Member::find($id);
+
+        $input_url = $member->photo != null ? $member->photo : null;
+
+        if (request()->has('photo')) {
+            $photo = request()->file('photo');
+            $profileImage = date('YmdHis') . "." . $photo->getmemberOriginalExtension();
+            $photo->move(public_path('upload/user'), $profileImage);
+            $input_url = 'upload/user/'.$profileImage;
+        }
      
-        Member::create($input);
+        $member->update([
+            'full_name' => request()->full_name,
+            'date_of_birth'=> request()->date_of_birth,
+            'place_of_residence'=>request()->place_of_residence,
+            'job'=>request()->job,
+            'contact1'=>request()->contact1,	
+            'contact2'=>request()->contact2,	
+            'spouse_name'=>request()->spouse_name,
+            'spouse_contact'=>request()->spouse_contact,
+            'fathers_name'=>request()->fathers_name,
+            'Fathers_contact'=>request()->fathers_contact,	
+            'mothers_name'=>request()->mothers_name,
+            'mothers_contact'=>request()->mothers_contact,	
+            'photo'=>$input_url,
+        ]);
+
+        if(count(request()->ministry) > 0){
+            $ministries = MinistryPosition::where('member_id',$id)->get();
+            foreach($ministries as $ministry){
+                MinistryPosition::find($ministry->id)->delete();
+            }
+            for($i = 0; $i < count(request()->ministry); $i++){
+                MinistryPosition::create([
+                    'member_id' => $member->id,
+                    'ministry_id' =>  request()->ministry[$i],
+                    'position_id' => request()->position[$i]
+                ]);
+            }
+        }
       
         return redirect()->route('member.index')
                         ->with(['success' => 'member Updated successfully.']);
