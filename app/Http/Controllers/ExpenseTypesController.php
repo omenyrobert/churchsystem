@@ -26,6 +26,7 @@ class ExpenseTypesController extends Controller
         ]);
        
         $expense_type = ExpenseTypes::find($request->id);
+        
         $expense_type->update([
             'expense_type' => $request->expense_type,
         ]);
