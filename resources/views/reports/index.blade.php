@@ -29,12 +29,12 @@
                 {{-- @include('layouts.cards') --}}
                 <div class="bg-white p-3 mt-2 shadow overflow-auto" style="border-radius: 15px; height: 80vh;">
                     <div class="d-flex" style="justify-content: space-between">
-                        
+
                         @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                        </div>
-                    @endif
+                            <div class="alert alert-success">
+                                <p>{{ $message }}</p>
+                            </div>
+                        @endif
                     </div>
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -48,106 +48,138 @@
                         </div>
                     @endif
                     <div class="row">
-                        <div class="col-md-6"><h3 style="color: #008ad3; ">Report</h3></div>
-                        <div class="col-md-6"><button class="btn btn-primary"><i class="bi bi-printer"></i>Print</button></div>
+                        <div class="col-md-6">
+                            <h3 style="color: #008ad3; ">Report</h3>
+                        </div>
+                        <div class="col-md-6"><button class="btn btn-primary"><i
+                                    class="bi bi-printer"></i>Print</button></div>
 
                     </div>
                     <form>
-                    <div class="row mt-4">
-                        <div class="col-md-2">
-                            <label>Start date</label>
-                            <input type="date" name="start_date" class="form-control">
+                        <div class="row mt-4">
+                            <div class="col-md-2">
+                                <label>Start date</label>
+                                <input type="date" name="start_date" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <label>End date</label>
+                                <input type="date" name="end_date" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <label>Type Of income</label>
+                                <select name="income_type" class="form-control">
+                                    <option disabled>--- select Income Type ---</option>
+                                    @foreach ($income_types as $income_type)
+                                        <option value="{{ $income_type->id }}">
+                                            {{ $income_type->income_type }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Type Of Expense</label>
+                                <select name="expense_type" class="form-control">
+                                    <option disabled>--- select expense Type ---</option>
+                                    @foreach ($expense_types as $expense_type)
+                                        <option value="{{ $expense_type->id }}">
+                                            {{ $expense_type->expense_type }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary mt-4">Generate</button>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <label>End date</label>
-                            <input type="date" name="end_date" class="form-control">
-                        </div>
-                        <div class="col-md-2">
-                            <label>Type Of income</label>
-                            <select name="income_type" class="form-control">
-                                <option disabled>--- select Income Type ---</option>
-                                @foreach($income_types as $income_type)
-                                <option value="{{$income_type->id}}">
-                                    {{$income_type->income_type}}
-                                </option>
-                                @endforeach
-                                 </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label>Type Of Expense</label>
-                            <select name="expense_type" class="form-control">
-                                <option disabled>--- select expense Type ---</option>
-                                @foreach($expense_types as $expense_type)
-                                <option value="{{$expense_type->id}}">
-                                    {{$expense_type->expense_type}}
-                                </option>
-                                @endforeach
-                                 </select>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary mt-4">Generate</button>
-                        </div>
-                    </div>
                     </form>
                     <div class="row">
- 
-                                <div class="col-md-6 p-5">
-                                    <table class="table mt-3">
-                                        <thead style="background-color: #bbd0d750; color: #008ad3;">
-                                            <th class="tab-font">Date</th>
-                                            <th class="tab-font">Income Type</th>
-                                            <th class="tab-font">Income</th>
-                                            <th class="tab-font">Comment</th>
-                                            
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($incomes as $income )
+
+                        <div class="col-md-6 p-5">
+                            <table class="table mt-3">
+                                <thead style="background-color: #bbd0d750; color: #008ad3;">
+                                    <th class="tab-font">Date</th>
+                                    <th class="tab-font">Income Type</th>
+                                    <th class="tab-font">Income</th>
+                                    <th class="tab-font">Comment</th>
+
+                                </thead>
+                                <tbody>
+                                    @foreach ($incomes as $income)
+                                        @foreach ($income?->incomes_per_type as $type)
                                             <tr>
+                                                @php
+                                                    // dd($type);
+                                                @endphp
+                                                <td>{{ $type?->date }}</td>
+                                                <td>{{ $income?->type }}</td>
+                                                <td>{{ $type?->income }}</td>
+                                                <td>{{ $type?->comment }}</td>
+                                            </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td>Sub Total:</td>
+                                            <td></td>
+                                            <td><b>{{ number_format($income?->total) }}</b></td>
+                                        </tr>
+                                        {{-- <tr>
                                                 <td  class="tab-font">{{ $income->date }}</td>
                                                 <td  class="tab-font">{{ $income?->type?->income_type }}</td>
                                                 <td  class="tab-font">{{ $income->income }}</td>
                                                 <td  class="tab-font">{{ $income->comment }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            </tr> --}}
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
 
-                                <div class="col-md-6 p-5">
-                                    <table class="table mt-3">
-                                        <thead style="background-color: #bbd0d750; color: #008ad3;">
-                                            <th class="tab-font">Date</th>
-                                            <th class="tab-font">Expense Type</th>
-                                            <th class="tab-font">Expense</th>
-                                            <th class="tab-font">Comment</th>
-                                            
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($expenses as $expense )
+                        <div class="col-md-6 p-5">
+                            <table class="table mt-3">
+                                <thead style="background-color: #bbd0d750; color: #008ad3;">
+                                    <th class="tab-font">Date</th>
+                                    <th class="tab-font">Expense Type</th>
+                                    <th class="tab-font">Expense</th>
+                                    <th class="tab-font">Comment</th>
+
+                                </thead>
+                                <tbody>
+                                    @foreach ($expenses as $expense)
+                                        @foreach ($expense->expenses_per_type as $type)
                                             <tr>
+                                                <td>{{ $type?->date }}</td>
+                                                <td>{{ $expense?->type }}</td>
+                                                <td>{{ $type?->expense }}</td>
+                                                <td>{{ $type?->comment }}</td>
+                                            </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td>Sub Total: </td>
+                                            <td></td>
+                                            <td><b>{{ number_format($expense->total) }}</b></td>
+                                        </tr>
+                                        {{-- <tr>
                                                 <td  class="tab-font">{{ $expense->date }}</td>
                                                 <td  class="tab-font">{{ $expense?->type?->expense_type }}</td>
                                                 <td  class="tab-font">{{ $expense->expense }}</td>
                                                 <td  class="tab-font">{{ $expense->comment }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-
-                            
-                              
-                           
-
+                                            </tr> --}}
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        
+
                     </div>
+
+
+
+
 
                 </div>
 
             </div>
+
+        </div>
+
+    </div>
 
     </div>
 

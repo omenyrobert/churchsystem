@@ -10,7 +10,7 @@ class IncomeTypesController extends Controller
     public function index()
     {
         $income_types = IncomeTypes::all();
-        return view('IncomeTypesFolder.index', compact('income_types'));
+        return view('incomeTypesFolder.index', compact('income_types'));
     }
     public function store()
     {

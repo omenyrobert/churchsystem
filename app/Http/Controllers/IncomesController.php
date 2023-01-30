@@ -19,7 +19,7 @@ class IncomesController extends Controller
             $incomes[] = $income;
         }
         $income_types = IncomeTypes::all();
-        return view('Incomes.index', compact('income_types','incomes'));
+        return view('incomes.index', compact('income_types','incomes'));
     }
     public function store(){
         Incomes::create([

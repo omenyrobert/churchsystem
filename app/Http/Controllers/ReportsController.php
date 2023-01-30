@@ -17,26 +17,23 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        //
-        $incomes = [];
-        $query_incomes = Incomes::all();
-        foreach($query_incomes as $income){
-            $type = IncomeTypes::find($income->income_type);
-            $income->type = $type;
-            $incomes[] = $income;
-        }
         $income_types = IncomeTypes::all();
-        
-        $expenses = Expenses::all();
-        $expenses = [];
-        $query_expenses = Expenses::all();
-        foreach($query_expenses as $expense){
-            $type = ExpenseTypes::find($expense->expense_type);
-            $expense->type = $type;
-            $expenses[] = $expense;
-        }
         $expense_types = ExpenseTypes::all();
-        return view('reports.index', compact('expense_types','expenses','income_types','incomes'));
+        $incomes = [];
+        $expenses = [];
+        foreach ($income_types as $income_type) {
+            $income = Incomes::where('income_type', $income_type->id)->get();
+            $total_income_per_type = Incomes::where('income_type', $income_type->id)->sum('income');
+            $income_object = (object)['incomes_per_type' => $income, 'total' => $total_income_per_type, 'type' => $income_type->income_type];
+            $incomes[] = $income_object;
+        }
+        foreach ($expense_types as $expense_type) {
+            $expense = Expenses::where('expense_type', $expense_type->id)->get();
+            $total_expense_per_type = Expenses::where('expense_type', $income_type->id)->sum('expense');
+            $expense_object = (object)['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
+            $expenses[] = $expense_object;
+        }
+        return view('reports.index', compact('expense_types', 'expenses', 'income_types', 'incomes'));
     }
 
     /**
