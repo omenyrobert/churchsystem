@@ -55,7 +55,7 @@
                                     class="bi bi-printer"></i>Print</button></div>
 
                     </div>
-                    <form>
+                    <form action="{{route('report.filter')}}" method="POST">
                         <div class="row mt-4">
                             <div class="col-md-2">
                                 <label>Start date</label>

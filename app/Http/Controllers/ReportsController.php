@@ -24,26 +24,76 @@ class ReportsController extends Controller
         foreach ($income_types as $income_type) {
             $income = Incomes::where('income_type', $income_type->id)->get();
             $total_income_per_type = Incomes::where('income_type', $income_type->id)->sum('income');
-            $income_object = (object)['incomes_per_type' => $income, 'total' => $total_income_per_type, 'type' => $income_type->income_type];
+            $income_object = (object) ['incomes_per_type' => $income, 'total' => $total_income_per_type, 'type' => $income_type->income_type];
             $incomes[] = $income_object;
         }
         foreach ($expense_types as $expense_type) {
             $expense = Expenses::where('expense_type', $expense_type->id)->get();
             $total_expense_per_type = Expenses::where('expense_type', $income_type->id)->sum('expense');
-            $expense_object = (object)['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
+            $expense_object = (object) ['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
             $expenses[] = $expense_object;
         }
         return view('reports.index', compact('expense_types', 'expenses', 'income_types', 'incomes'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the filter.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function filter()
     {
-        //
+        $income_types = IncomeTypes::all();
+        $expense_types = ExpenseTypes::all();
+        $incomes = [];
+        $expenses = [];
+        if (!empty(request()->start_date) && empty(request()->end_date)) {
+            $start_date = request()->start_date;
+            foreach ($income_types as $income_type) {
+                $income = Incomes::whereDate('created_at', $start_date)->get();
+                $total_income_per_type = Incomes::whereDate('created_at', $start_date)->sum('income');
+                $income_object = (object) ['incomes_per_type' => $income, 'total' => $total_income_per_type, 'type' => $income_type->income_type];
+                $incomes[] = $income_object;
+            }
+            foreach ($expense_types as $expense_type) {
+                $expense = Expenses::whereDate('created_at', $start_date)->get();
+                $total_expense_per_type = Expenses::whereDate('created_at', $start_date)->sum('expense');
+                $expense_object = (object) ['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
+                $expenses[] = $expense_object;
+            }
+        }
+        if (empty(request()->start_date) && !empty(request()->end_date)) {
+            $end_date = request()->end_date;
+            foreach ($income_types as $income_type) {
+                $income = Incomes::whereDate('created_at', $end_date)->get();
+                $total_income_per_type = Incomes::whereDate('created_at', $end_date)->sum('income');
+                $income_object = (object) ['incomes_per_type' => $income, 'total' => $total_income_per_type, 'type' => $income_type->income_type];
+                $incomes[] = $income_object;
+            }
+            foreach ($expense_types as $expense_type) {
+                $expense = Expenses::whereDate('created_at', $end_date)->get();
+                $total_expense_per_type = Expenses::whereDate('created_at', $end_date)->sum('expense');
+                $expense_object = (object) ['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
+                $expenses[] = $expense_object;
+            }
+        }
+        if (!empty(request()->start_date) && !empty(request()->end_date)) {
+            $end_date = request()->end_date;
+            $start_date = request()->end_date;
+            foreach ($income_types as $income_type) {
+                $income = Incomes::whereDate('created_at', $end_date)->get();
+                $total_income_per_type = Incomes::whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->sum('income');
+                $income_object = (object) ['incomes_per_type' => $income, 'total' => $total_income_per_type, 'type' => $income_type->income_type];
+                $incomes[] = $income_object;
+            }
+            foreach ($expense_types as $expense_type) {
+                $expense = Expenses::whereDate('created_at', $end_date)->get();
+                $total_expense_per_type = Expenses::whereDate('created_at', '>=', $start_date)->whereDate('created_at', $end_date)->sum('expense');
+                $expense_object = (object) ['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
+                $expenses[] = $expense_object;
+            }
+        }
+        return view('reports.index', compact('expense_types', 'expenses', 'income_types', 'incomes'));
     }
 
     /**
