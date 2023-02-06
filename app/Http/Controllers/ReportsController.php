@@ -82,15 +82,15 @@ class ReportsController extends Controller
             $start_date = request()->start_date;
             foreach ($income_types as $income_type) {
                 $income = Incomes::where('date', $end_date)->get();
-                $total_income_per_type = Incomes::whereRaw('STR_TO_DATE(date,"%d-%m-%Y") >= STR_TO_DATE("' . $start_date . '","%d-%m-%Y")')
-                    ->whereRaw('STR_TO_DATE(date,"%d-%m-%Y") <= STR_TO_DATE("' . $end_date . '","%d-%m-%Y")')->sum('income');
+                $total_income_per_type = Incomes::whereRaw('STR_TO_DATE(date,"%Y-%m-%d") >= STR_TO_DATE("' . $start_date . '","%Y-%m-%d")')
+                    ->whereRaw('STR_TO_DATE(date,"%Y-%m-%d") <= STR_TO_DATE("' . $end_date . '","%Y-%m-%d")')->sum('income');
                 $income_object = (object) ['incomes_per_type' => $income, 'total' => $total_income_per_type, 'type' => $income_type->income_type];
                 $incomes[] = $income_object;
             }
             foreach ($expense_types as $expense_type) {
                 $expense = Expenses::where('date', $end_date)->get();
-                $total_expense_per_type = Expenses::whereRaw('STR_TO_DATE(date,"%d-%m-%Y") >= STR_TO_DATE("' . $start_date . '","%d-%m-%Y")')
-                    ->whereRaw('STR_TO_DATE(date,"%d-%m-%Y") <= STR_TO_DATE("' . $end_date . '","%d-%m-%Y")')->sum('expense');
+                $total_expense_per_type = Expenses::whereRaw('STR_TO_DATE(date,"%Y-%m-%d") >= STR_TO_DATE("' . $start_date . '","%Y-%m-%d")')
+                    ->whereRaw('STR_TO_DATE(date,"%Y-%m-%d") <= STR_TO_DATE("' . $end_date . '","%Y-%m-%d")')->sum('expense');
                 $expense_object = (object) ['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
                 $expenses[] = $expense_object;
             }
