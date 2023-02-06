@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Church System</title>
 </head>
 
@@ -54,7 +54,7 @@
 
                         </div>
                         <div class="col-md-4">
-                            <input type="search"  class="form-control" placeholder="Search here.."/>
+                            <input type="search" id="search" class="form-control" placeholder="Search here.."/>
                         </div>
                         <div class="col-md-4">
                             <form>
@@ -88,7 +88,7 @@
                       </ul>
                       <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                            <table class="table mt-3">
+                            <table class="table mt-3" id="table">
                                 <thead style="background-color: #bbd0d750; color: #008ad3;">
                                   <th>No</th>
                                   <th>Image</th>
@@ -181,8 +181,32 @@
     <!-- Option 2: Separate Popper and Bootstrap JS -->
 
     <script>
-    
-        </script>
+        $(document).ready(function(){
+
+        // Search all columns
+        $('#search').keyup(function(){
+            var search = $(this).val();
+
+            $('table tbody tr').hide();
+
+            var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
+
+            if(len > 0){
+              $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+                  $(this).closest('tr').show();
+              });
+            }else{
+              $('.notfound').show();
+            }
+            
+        });
+    });
+      $.expr[":"].contains = $.expr.createPseudo(function(arg) {
+        return function( elem ) {
+            return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+        };
+    });
+  </script>
 
 </body>
 
