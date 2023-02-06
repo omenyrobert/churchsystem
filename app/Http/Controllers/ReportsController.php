@@ -79,7 +79,7 @@ class ReportsController extends Controller
         }
         if (!empty(request()->start_date) && !empty(request()->end_date)) {
             $end_date = request()->end_date;
-            $start_date = request()->end_date;
+            $start_date = request()->start_date;
             foreach ($income_types as $income_type) {
                 $income = Incomes::whereDate('created_at', $end_date)->get();
                 $total_income_per_type = Incomes::whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->sum('income');
@@ -95,6 +95,7 @@ class ReportsController extends Controller
         }
         return view('reports.index', compact('expense_types', 'expenses', 'income_types', 'incomes'));
     }
+    // git remote add origin https://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@github.com/omenyrobert/churchsystem.git
 
     /**
      * Store a newly created resource in storage.
