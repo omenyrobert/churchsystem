@@ -29,7 +29,7 @@ class ReportsController extends Controller
         }
         foreach ($expense_types as $expense_type) {
             $expense = Expenses::where('expense_type', $expense_type->id)->get();
-            $total_expense_per_type = Expenses::where('expense_type', $income_type->id)->sum('expense');
+            $total_expense_per_type = Expenses::where('expense_type', $expense_type->id)->sum('expense');
             $expense_object = (object)['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
             $expenses[] = $expense_object;
         }

@@ -105,28 +105,22 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($incomes as $income)
-                                        @foreach ($income?->incomes_per_type as $type)
-                                            <tr>
-                                                @php
-                                                    // dd($type);
-                                                @endphp
-                                                <td>{{ $type?->date }}</td>
-                                                <td>{{ $income?->type }}</td>
-                                                <td>{{ $type?->income }}</td>
-                                                <td>{{ $type?->comment }}</td>
-                                            </tr>
-                                        @endforeach
-                                        <tr>
-                                            <td>Sub Total:</td>
-                                            <td></td>
-                                            <td><b>{{ number_format($income?->total) }}</b></td>
-                                        </tr>
-                                        {{-- <tr>
-                                                <td  class="tab-font">{{ $income->date }}</td>
-                                                <td  class="tab-font">{{ $income?->type?->income_type }}</td>
-                                                <td  class="tab-font">{{ $income->income }}</td>
-                                                <td  class="tab-font">{{ $income->comment }}</td>
-                                            </tr> --}}
+                                    @if ($income?->total > 0)
+                                    @foreach ($income?->incomes_per_type as $type)
+                                    <tr>
+                                        <td class="tab-font">{{ $type?->date }}</td>
+                                        <td class="tab-font">{{ $income?->type }}</td>
+                                        <td class="tab-font">{{ $type?->income }}</td>
+                                        <td class="tab-font">{{ $type?->comment }}</td>
+                                    </tr>
+                                @endforeach
+                                <tr class="bg-info">
+                                    <td >Sub Total:</td>
+                                    <td></td>
+                                    <td><b>{{ number_format($income?->total) }}</b></td>
+                                    <td></td>
+                                </tr>
+                                    @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -143,25 +137,22 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($expenses as $expense)
-                                        @foreach ($expense->expenses_per_type as $type)
-                                            <tr>
-                                                <td>{{ $type?->date }}</td>
-                                                <td>{{ $expense?->type }}</td>
-                                                <td>{{ $type?->expense }}</td>
-                                                <td>{{ $type?->comment }}</td>
-                                            </tr>
-                                        @endforeach
-                                        <tr>
-                                            <td>Sub Total: </td>
-                                            <td></td>
-                                            <td><b>{{ number_format($expense->total) }}</b></td>
-                                        </tr>
-                                        {{-- <tr>
-                                                <td  class="tab-font">{{ $expense->date }}</td>
-                                                <td  class="tab-font">{{ $expense?->type?->expense_type }}</td>
-                                                <td  class="tab-font">{{ $expense->expense }}</td>
-                                                <td  class="tab-font">{{ $expense->comment }}</td>
-                                            </tr> --}}
+                                    @if ($expense->total > 0)
+                                    @foreach ($expense->expenses_per_type as $type)
+                                    <tr>
+                                        <td class="tab-font">{{ $type?->date }}</td>
+                                        <td class="tab-font">{{ $expense?->type }}</td>
+                                        <td class="tab-font">{{ $type?->expense }}</td>
+                                        <td class="tab-font">{{ $type?->comment }}</td>
+                                    </tr>
+                                @endforeach
+                                <tr class="bg-info">
+                                    <td>Sub Total: </td>
+                                    <td></td>
+                                    <td><b>{{ number_format($expense->total) }}</b></td>
+                                    <td></td>
+                                </tr>
+                                    @endif  
                                     @endforeach
                                 </tbody>
                             </table>

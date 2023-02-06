@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <title>Church System</title>
 </head>
 
@@ -31,6 +32,51 @@
                              <p>{{ $message }}</p>
                          </div>
                      @endif
+                     <div class="row mt-5">
+                        <div class="col-md-4">
+                            <form>
+                                <div class="d-flex">
+                                    <select class="form-control">
+                                        <option>
+                                            Men's Ministry
+                                        </option>
+                                        <option>
+                                            Men's Ministry
+                                        </option>
+                                        <option>
+                                            Men's Ministry
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-primary" style="margin-left: 10px;">Filter</button>
+
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="col-md-4">
+                            <input type="search"  class="form-control" placeholder="Search here.."/>
+                        </div>
+                        <div class="col-md-4">
+                            <form>
+                                <div class="d-flex">
+                                    <select class="form-control">
+                                        <option>
+                                            Men's Ministry
+                                        </option>
+                                        <option>
+                                            Men's Ministry
+                                        </option>
+                                        <option>
+                                            Men's Ministry
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-primary" style="margin-left: 10px;">Filter</button>
+
+                                </div>
+                            </form>
+                        </div>
+
+                     </div>
                      <ul class="nav nav-pills mb-3 mt-5" id="pills-tab"  role="tablist">
                         <li class="nav-item" role="presentation">
                           <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Table List</button>
@@ -49,7 +95,7 @@
                                   <th>Full Name</th>
                                   <th>Place of Residence</th>
                                   <th>Contact</th>
-                                  <th>Border stage</th>
+                                  <th>Job</th>
                                   <th>Spouse</th>
                                   <th>Guarantee</th>
                                   <th>Action</th>
@@ -58,12 +104,12 @@
                                     @foreach ($members as $member)
                                     <tr>
                                         <td>{{ ++$i }}</td>
-                                        <td><img src="{{ !is_null($member->photo) ? asset($member->photo) : asset('upload/user/placeholder.png') }}" width="100px" height="100px" style="border-radius: 5px"></td>
+                                        <td><img src="{{ !is_null($member->photo) ? asset($member->photo) : asset('upload/user/placeholder.png') }}" style="border-radius: 5px; width: 60px; height: 60px; object-fit: cover;"></td>
                                         <td>{{ $member->full_name }}</td>
                                         <td>{{ $member->place_of_residence }}</td>
                                         <td>{{ $member->contact1 }}</td>
                                                                            
-                                        <td>{{ $member->boda_stage }}</td>
+                                        <td>{{ $member?->job }}</td>
                                         <td><div class="d-flex">{{ $member->spouse_name }}  <p style="color: #008ad3; margin-left: 10px;">{{ $member->spouse_contact }}</p></div></td>
                                         <td><div class="d-flex">{{ $member->guarantee_name }} <p style="color: #008ad3; margin-left: 10px;"> {{ $member->guarantee_contact }}</p></div></td>
                                         <td><div class="d-flex"> <a href="{{ route('member.edit',$member->id) }}"><i class="bi bi-pencil m-1 text-warning"></i> </a>
@@ -133,6 +179,10 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
+
+    <script>
+    
+        </script>
 
 </body>
 
