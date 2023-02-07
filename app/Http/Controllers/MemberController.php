@@ -19,10 +19,28 @@ class MemberController extends Controller
     {
         //
         $members = Member::all();
-     
-        return view('members.index',compact('members'))
+        $ministries = MinistryTypes::all();
+        $positions = ChurchPositions::all();
+        return view('members.index',compact('members','ministries','positions'))
             ->with('i');
     }
+
+    // public function position($id)
+    // {
+    //     $member = Member::find($id);
+    //     $member = Member::with('position')->where('position_id',$id)->get();
+       
+    //     return view('members.index',compact('member'));
+    // }
+
+    // public function ministry($id)
+    // {
+    //     $member = Member::find($id);
+    //     $member = Member::with('ministry')->where('ministry_id',$id)->get();
+       
+    //     return view('members.index',compact('member'));
+    // }
+
 
     /**
      * Show the form for creating a new resource.

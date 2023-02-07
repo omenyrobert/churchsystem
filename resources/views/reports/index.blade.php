@@ -69,7 +69,7 @@
                             <div class="col-md-2">
                                 <label>Type Of income</label>
                                 <select name="income_type" class="form-control">
-                                    <option disabled>--- select Income Type ---</option>
+                                    <option disabled selected>--- select Income Type ---</option>
                                     @foreach ($income_types as $income_type)
                                         <option value="{{ $income_type->id }}">
                                             {{ $income_type->income_type }}
@@ -80,7 +80,7 @@
                             <div class="col-md-2">
                                 <label>Type Of Expense</label>
                                 <select name="expense_type" class="form-control">
-                                    <option disabled>--- select expense Type ---</option>
+                                    <option disabled selected>--- select expense Type ---</option>
                                     @foreach ($expense_types as $expense_type)
                                         <option value="{{ $expense_type->id }}">
                                             {{ $expense_type->expense_type }}

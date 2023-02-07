@@ -37,15 +37,11 @@
                             <form>
                                 <div class="d-flex">
                                     <select class="form-control">
-                                        <option>
-                                            Men's Ministry
-                                        </option>
-                                        <option>
-                                            Men's Ministry
-                                        </option>
-                                        <option>
-                                            Men's Ministry
-                                        </option>
+                                        @foreach ($positions as $position )
+                                        <option value="{{ $position?->id }}">
+                                            {{$position?->position}}
+                                          </option>  
+                                        @endforeach
                                     </select>
                                     <button class="btn btn-primary" style="margin-left: 10px;">Filter</button>
 
@@ -60,15 +56,13 @@
                             <form>
                                 <div class="d-flex">
                                     <select class="form-control">
-                                        <option>
-                                            Men's Ministry
-                                        </option>
-                                        <option>
-                                            Men's Ministry
-                                        </option>
-                                        <option>
-                                            Men's Ministry
-                                        </option>
+                                        @foreach ($ministries as $ministry )
+                                        <option value="{{ $ministry?->id }}">
+                                            {{$ministry?->ministry}}
+                                          </option>  
+                                        @endforeach
+                                        
+                                      
                                     </select>
                                     <button class="btn btn-primary" style="margin-left: 10px;">Filter</button>
 

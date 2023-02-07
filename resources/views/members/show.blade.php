@@ -28,13 +28,20 @@
                     <a href="{{ url('/members') }}" class="text-decoration-none btn btn-primary">Back</a>
                         <div class="row mt-5 p-1">
                             <div class="col-md-6">
-                                <div class="m-4">
-                                    {{-- <label>Photo</label> --}}
-                                    <img src="{{ !is_null($member->photo) ? asset($member->photo) : asset('upload/user/placeholder.png') }}" width="100px" height="100px" style="border-radius: 5px">
-                                    {{-- <input type="file" class="form-control mt-2" name="photo" placeholder="Photo"> --}}
+                                <div class="m-4 bg-light rounded p-2 shadow border d-flex">
+                                    <div style="width: 60%;">
+                                        <img src="{{ !is_null($member->photo) ? asset($member->photo) : asset('upload/user/placeholder.png') }}"  style="border-radius: 5px; width: 200px; height: 200px; object-fit: cover; border-radius: 100%;">
+                                   
+
+                                    </div>
+                                    <div>
+                                        <h3 style="color: #008ad3; "> {{ $member->full_name }}</h3>
+                                        
+                                    </div>
+                                    
                                 </div>
                                 <div class="m-4">
-                                    <h3 style="color: #008ad3; "> {{ $member->full_name }}</h3>
+                                    
                                 </div>
                                 <div class="m-4">
                                     <label>Date of Birth</label><br/>
@@ -71,33 +78,25 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="m-4">
-                                    <label>Boda Stage</label><br/>
-                                    <p class="text-primary"> {{ $member->boda_stage }}</p>
+                                    <label>Job</label><br/>
+                                    <p class="text-primary"> {{ $member->job }}</p>
                                 </div>
 
                                 <div class="m-4">
-                                    <label>Guarantee Name</label><br/>
-                                    <p class="text-primary">{{ $member->guarantee_name }}</p>
+                                    <label>Father</label><br/>
+                                    <p class="text-primary">{{ $member->fathers_name }}</p>
+                                    <p class="text-primary">{{ $member->fathers_contact }}</p>
                                 </div>
 
                                 <div class="m-4">
-                                    <label>Guarantee Contact</label><br/>
-                                    <p class="text-primary"> {{ $member->guarantee_contact }}</p>
+                                    <label>Mothers</label><br/>
+                                    <p class="text-primary"> {{ $member->mothers_name }}</p>
+                                    <p class="text-primary"> {{ $member->mothers_contact }}</p>
                                 </div>
                                
-                                <div class="m-4">
-                                    <label>Spouse Name</label><br/>
-                                    <p class="text-primary">{{ $member->spouse_name }}</p>
-                                </div>
-                                <div class="m-4">
-                                    <label>Positions</label><br/>
-                                    <p class="text-primary">{{ $member->spouse_name }}</p>
-                                </div>
+                               
 
-                                <div class="m-4">
-                                    <label>Spouse Contact</label><br/>
-                                    <p class="text-primary">{{ $member->spouse_contact }}</p>
-                                </div>
+                               
                             </div>
 
                         </div>

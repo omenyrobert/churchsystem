@@ -38,6 +38,8 @@ Route::prefix('members')->group(function () {
     Route::put('/update/{id}', [MemberController::class, 'update'])->name('member.update');
     Route::post('/destroy/{member}', [MemberController::class, 'destroy'])->name('member.destroy');
     Route::get('/create', [MemberController::class, 'create'])->name('member.create');
+    Route::get('/position/{id}', [MemberController::class, 'position'])->name('member.position');
+    Route::get('/ministry/{id}', [MemberController::class, 'ministry'])->name('member.ministry');
 });
 
 Route::prefix('loans')->group(function () {
@@ -47,18 +49,7 @@ Route::prefix('loans')->group(function () {
     Route::get('/edit/{loan}', [LoanController::class, 'edit'])->name('loan.edit');
     Route::put('/update/{loan}', [LoanController::class, 'update'])->name('loan.update');
 });
-Route::prefix('payment')->group(function () {
-    Route::post('/store', [PaymentsController::class, 'store'])->name('payment.store');
-    Route::get('/all', [PaymentsController::class, 'index'])->name('payment.all');
-    Route::post('/generate', [PaymentsController::class, 'generate'])->name('payment.generate');
-    Route::get('/daily-reports', [PaymentsController::class, 'today'])->name('payment.today');
-    Route::get('/missed-payments', [PaymentsController::class, 'missed_payments'])->name('payment.missed');
-    Route::get('/normal-payments', [PaymentsController::class, 'normal_payments'])->name('payment.normal');
-    Route::get('/fine-payments', [PaymentsController::class, 'fine_payments'])->name('payment.fine');
-    Route::get('/record-missed', [PaymentsController::class, 'auto_missed_payments_record'])->name('payment.record.missed');
-    Route::get('/reschedule-payments', [PaymentsController::class, 'reschedule_payments'])->name('payment.reschedule');
-    Route::post('/clear-payment', [PaymentsController::class, 'clear_payment'])->name('payment.clear');
-});
+
 
 Route::prefix('expense_type')->group(function () {
     Route::get('/', [ExpenseTypesController::class, 'index'])->name('expense_type.index');
