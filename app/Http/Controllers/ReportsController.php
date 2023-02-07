@@ -98,6 +98,29 @@ class ReportsController extends Controller
                 $expenses[] = $expense_object;
             }
         }
+        if (!empty(request()->income_type) && empty(request()->expense_type)) {
+            $income = Incomes::where('income_type', request()->income_type)->get();
+            $total_income_per_type = Incomes::where('income_type', request()->income_type)->sum('income');
+            $income_object = (object) ['incomes_per_type' => $income, 'total' => $total_income_per_type, 'type' => $income_type->income_type];
+            $incomes[] = $income_object;
+        }
+        if (!empty(request()->expense_type) && empty(request()->income_type)) {
+            $expense = Expenses::where('expense_type', request()->expense_type)->get();
+            $total_expense_per_type = Expenses::where('expense_type', request()->expense_type)->sum('expense');
+            $expense_object = (object) ['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
+            $expenses[] = $expense_object;
+        }
+        if (!empty(request()->income_type) && !empty(request()->expense_type)) {
+            $income = Incomes::where('income_type', request()->income_type)->get();
+            $total_income_per_type = Incomes::where('income_type', request()->income_type)->sum('income');
+            $income_object = (object) ['incomes_per_type' => $income, 'total' => $total_income_per_type, 'type' => $income_type->income_type];
+            $incomes[] = $income_object;
+            $expense = Expenses::where('expense_type', request()->expense_type)->get();
+            $total_expense_per_type = Expenses::where('expense_type', request()->expense_type)->sum('expense');
+            $expense_object = (object) ['expenses_per_type' => $expense, 'total' => $total_expense_per_type, 'type' => $expense_type->expense_type];
+            $expenses[] = $expense_object;
+
+        }
         return view('reports.index', compact('expense_types', 'expenses', 'income_types', 'incomes'));
     }
     // git remote add origin https://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@github.com/omenyrobert/churchsystem.git
