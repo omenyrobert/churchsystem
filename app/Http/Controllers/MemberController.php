@@ -21,7 +21,7 @@ class MemberController extends Controller
         //
         $members = Member::latest()->get()->map(function ($member) {
             $ministries = array();
-            $ministry_positions = DB::table('member_ministry_position')->where('member_id', $member->id)->get();
+            $ministry_positions = DB::table('member_position_ministry')->where('member_id', $member->id)->get();
             foreach ($ministry_positions as $min_pos) {
                 $min_pos_object = (object) [];
                 $min_pos_object->ministry = MinistryTypes::where('id', $min_pos->ministry_id)->first();

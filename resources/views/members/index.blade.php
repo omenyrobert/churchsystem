@@ -107,8 +107,8 @@
                                         <td>{{ $member?->date_of_birth }}</td>
                                        
                                         <td>
-                                            @foreach ($member?->MinistryPosition as $position)
-                                            <div class="d-flex">{{ $position?->ministry }} <p style="color: #008ad3; margin-left: 10px;"> {{ $position?->position }}</p></div>
+                                            @foreach ($member?->ministries as $position)
+                                            <div class="d-flex">{{ $position?->ministry->ministry }} <p style="color: #008ad3; margin-left: 10px;"> {{ $position?->position->position }}</p></div>
                                             @endforeach
                                             </td>
                                        
