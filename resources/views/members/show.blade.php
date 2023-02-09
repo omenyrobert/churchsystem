@@ -30,7 +30,7 @@
                             <div class="col-md-6">
                                 <div class="m-4 bg-light rounded p-2 shadow border d-flex">
                                     <div style="width: 60%;">
-                                        <img src="{{ !is_null($member->photo) ? asset($member->photo) : asset('upload/user/placeholder.png') }}"  style="border-radius: 5px; width: 200px; height: 200px; object-fit: cover; border-radius: 100%;">
+                                        <img src="{{ !is_null($member?->photo) ? asset($member?->photo) : asset('upload/user/placeholder.png') }}"  style="border-radius: 5px; width: 200px; height: 200px; object-fit: cover; border-radius: 100%;">
                                    
 
                                     </div>

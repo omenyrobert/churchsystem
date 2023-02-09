@@ -17,6 +17,7 @@ $all_incomes = \App\Models\Incomes::sum('income');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Church System</title>
     <style>
         .tab-font {
@@ -84,7 +85,8 @@ $all_incomes = \App\Models\Incomes::sum('income');
 
                                 </div>
                                 <div class="col-md-7 p-5">
-                                    <table class="table mt-3">
+                                    <input type="search" id="search" class="form-control" placeholder="Search here.."/>
+                                    <table class="table mt-3" id="table">
                                         <thead style="background-color: #bbd0d750; color: #008ad3;">
                                             <th class="tab-font">Date</th>
                                             <th class="tab-font">Income Type</th>
@@ -209,7 +211,33 @@ $all_incomes = \App\Models\Incomes::sum('income');
     </script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <script>
+        $(document).ready(function(){
 
+        // Search all columns
+        $('#search').keyup(function(){
+            var search = $(this).val();
+
+            $('table tbody tr').hide();
+
+            var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
+
+            if(len > 0){
+              $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+                  $(this).closest('tr').show();
+              });
+            }else{
+              $('.notfound').show();
+            }
+            
+        });
+    });
+      $.expr[":"].contains = $.expr.createPseudo(function(arg) {
+        return function( elem ) {
+            return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+        };
+    });
+  </script>
 </body>
 
 </html>

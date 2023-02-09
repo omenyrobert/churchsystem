@@ -18,7 +18,7 @@ class MemberController extends Controller
     public function index()
     {
         //
-        $members = Member::all();
+        $members = Member::with('MinistryPosition')->get();
         $ministries = MinistryTypes::all();
         $positions = ChurchPositions::all();
         return view('members.index',compact('members','ministries','positions'))
@@ -116,17 +116,19 @@ class MemberController extends Controller
      */
     public function show($id)
     {
-        $member = Member::find($id);
-        $min_pos = [];
-        $ministry_position = MinistryPosition::where('member_id',$id)->get();
-        foreach($ministry_position as $data){
-            $response = (object)[
-                'ministry' => MinistryTypes::where('id',$data->ministry_id)->first(['id','ministry']),
-                'position' => ChurchPositions::where('id',$data->position_id)->first(['id','position'])
-            ];
-            $min_pos[] = $response;
-        }
-        $member->ministries = $min_pos;
+        $member = Member::with('MinistryPosition')->find($id);
+        // $member = Member::find($id);
+        // $min_pos = [];
+        // $ministry_position = MinistryPosition::where('member_id',$id)->get();
+        // foreach($ministry_position as $data){
+        //     $response = (object)[
+        //         'ministry' => MinistryTypes::where('id',$data->ministry_id)->first(['id','ministry']),
+        //         'position' => ChurchPositions::where('id',$data->position_id)->first(['id','position'])
+        //     ];
+        //     $min_pos[] = $response;
+        // }
+        // $member->ministries = $min_pos;
+        // return $member;
         return view('members.show',compact('member'));
     }
 

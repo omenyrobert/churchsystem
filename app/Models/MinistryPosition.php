@@ -16,4 +16,8 @@ class MinistryPosition extends Model
         'position_id',
         'ministry_id'
     ];
+
+    public function members(){
+        return $this->hasMany(Member::class,'member_id');
+    }
 }

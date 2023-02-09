@@ -90,8 +90,8 @@
                                   <th>Place of Residence</th>
                                   <th>Contact</th>
                                   <th>Job</th>
-                                  <th>Spouse</th>
-                                  <th>Guarantee</th>
+                                  <th>Date Of birth</th>
+                                  <th>Ministry</th>
                                   <th>Action</th>
                                 </thead>
                                 <tbody>
@@ -104,9 +104,16 @@
                                         <td>{{ $member->contact1 }}</td>
                                                                            
                                         <td>{{ $member?->job }}</td>
-                                        <td><div class="d-flex">{{ $member->spouse_name }}  <p style="color: #008ad3; margin-left: 10px;">{{ $member->spouse_contact }}</p></div></td>
-                                        <td><div class="d-flex">{{ $member->guarantee_name }} <p style="color: #008ad3; margin-left: 10px;"> {{ $member->guarantee_contact }}</p></div></td>
-                                        <td><div class="d-flex"> <a href="{{ route('member.edit',$member->id) }}"><i class="bi bi-pencil m-1 text-warning"></i> </a>
+                                        <td>{{ $member?->date_of_birth }}</td>
+                                       
+                                        <td>
+                                            @foreach ($member?->MinistryPosition as $position)
+                                            <div class="d-flex">{{ $position?->ministry }} <p style="color: #008ad3; margin-left: 10px;"> {{ $position?->position }}</p></div>
+                                            @endforeach
+                                            </td>
+                                       
+                                       
+                                            <td><div class="d-flex"> <a href="{{ route('member.edit',$member->id) }}"><i class="bi bi-pencil m-1 text-warning"></i> </a>
                                             <form action="{{ route('member.destroy',$member->id) }}" method="POST"> @csrf<button type="submit" style="margin-top: -5px;" class="btn btn-default"> <i class="bi bi-trash-fill m-1 text-danger"></i></button></form>
                                              <a href="{{ route('member.show',$member->id) }}"> <i class="bi bi-eye-fill m-1 text-primary"></i></a></div></td>
                                         {{-- <td>

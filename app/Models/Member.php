@@ -26,4 +26,7 @@ class Member extends Model
         'mothers_contact',	
         'photo',	
     ];
+    public function MinistryPosition(){
+        return $this->hasMany(MinistryPosition::class);
+    }
 }
