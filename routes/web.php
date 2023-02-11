@@ -38,8 +38,8 @@ Route::prefix('members')->group(function () {
     Route::put('/update/{id}', [MemberController::class, 'update'])->name('member.update');
     Route::post('/destroy/{member}', [MemberController::class, 'destroy'])->name('member.destroy');
     Route::get('/create', [MemberController::class, 'create'])->name('member.create');
-    Route::get('/position/{id}', [MemberController::class, 'position'])->name('member.position');
-    Route::get('/ministry/{id}', [MemberController::class, 'ministry'])->name('member.ministry');
+    Route::get('/position/{id}', [MemberController::class, 'filter_position'])->name('member.position');
+    Route::get('/ministry/{id}', [MemberController::class, 'filter_ministry'])->name('member.ministry');
 });
 
 Route::prefix('loans')->group(function () {
