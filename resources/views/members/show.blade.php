@@ -26,80 +26,77 @@
 
                     <h3 style="color: #008ad3; ">members</h3>
                     <a href="{{ url('/members') }}" class="text-decoration-none btn btn-primary">Back</a>
-                        <div class="row mt-5 p-1">
-                            <div class="col-md-6">
-                                <div class="m-4 bg-light rounded p-2 shadow border d-flex">
-                                    <div style="width: 60%;">
-                                        <img src="{{ !is_null($member?->photo) ? asset($member?->photo) : asset('upload/user/placeholder.png') }}"  style="border-radius: 5px; width: 200px; height: 200px; object-fit: cover; border-radius: 100%;">
-                                   
+                    <div class="row mt-5 p-1">
+                        <div class="col-md-6">
+                            <div class="m-4 bg-light rounded p-2 shadow border d-flex">
+                                <div style="width: 60%;">
+                                    <img src="{{ !is_null($member?->photo) ? asset($member?->photo) : asset('upload/user/placeholder.png') }}"
+                                        style="border-radius: 5px; width: 200px; height: 200px; object-fit: cover; border-radius: 100%;">
 
+
+                                </div>
+                                <div>
+                                    <h3 style="color: #008ad3; "> {{ $member->full_name }}</h3>
+                                    
+                                    <p class=""> {{ $member->date_of_birth }} - <span class="text-primary">{{ \Carbon\Carbon::parse($member->date_of_birth)->age }} Yrs<span></p>
+                                    <div class="d-flex mt-2">
+                                        <p class="text-primary">{{ $member->contact1 }}</p>
+                                        <p class="text-primary">&nbsp;{{ $member->contact2 }}</p>
                                     </div>
-                                    <div>
-                                        <h3 style="color: #008ad3; "> {{ $member->full_name }}</h3>
-                                        
-                                    </div>
-                                    
-                                </div>
-                                <div class="m-4">
-                                    
-                                </div>
-                                <div class="m-4">
-                                    <label>Date of Birth</label><br/>
-                                   <p class="text-primary"> {{ $member->date_of_birth }}</p>
-                                </div>
-                                <div class="m-4">
-                                    <label>Place of Residence</label><br/>
-                                    <p class="text-primary">{{ $member->place_of_residence }}</p>
-                                    
-                                </div>
 
-                               
-
-                                <div class="m-4">
-                                    <label>First Contact</label><br/>
-                                    <p class="text-primary">{{ $member->contact1 }}</p>
-                                   
                                 </div>
-
-                                <div class="m-4">
-                                    <label>Second Contact</label><br/>
-                                    <p class="text-primary"> {{ $member->contact2 }}</p>
-   
-                                </div>
-
-                                
-                                <div class="m-4">
-                                    <label>Contract</label><br/>
-                                    <p class="text-primary">{{ $member->date_of_birth }}</p>
-                                   
-                                </div>
-
 
                             </div>
-                            <div class="col-md-6">
-                                <div class="m-4">
-                                    <label>Job</label><br/>
-                                    <p class="text-primary"> {{ $member->job }}</p>
-                                </div>
+                            <div class="m-4">
 
-                                <div class="m-4">
-                                    <label>Father</label><br/>
-                                    <p class="text-primary">{{ $member->fathers_name }}</p>
-                                    <p class="text-primary">{{ $member->fathers_contact }}</p>
-                                </div>
-
-                                <div class="m-4">
-                                    <label>Mothers</label><br/>
-                                    <p class="text-primary"> {{ $member->mothers_name }}</p>
-                                    <p class="text-primary"> {{ $member->mothers_contact }}</p>
-                                </div>
-                               
-                               
-
-                               
+                                @foreach ($member?->ministries as $position)
+                                <div class="d-flex">{{ $position?->ministry->ministry }} <p style="color: #008ad3; margin-left: 10px;"> {{ $position?->position->position }}</p></div>
+                                @endforeach
                             </div>
+                            
+                            <div class="m-4">
+                                <label>Place of Residence</label><br />
+                                <p class="text-primary">{{ $member->place_of_residence }}</p>
+
+                            </div>
+
+                            <div class="m-4">
+                                <label>Contract</label><br />
+                                <p class="text-primary">{{ $member->date_of_birth }}</p>
+
+                            </div>
+                            <div class="m-4">
+                                <label>Spouse</label><br />
+                                <p class="text-primary"> {{ $member->spouse_name }}</p>
+                                <p class="text-primary"> {{ $member->spouse_contact }}</p>
+                            </div>
+
 
                         </div>
+                        <div class="col-md-6">
+                            <div class="m-4">
+                                <label>Job</label><br />
+                                <p class="text-primary"> {{ $member->job }}</p>
+                            </div>
+
+                            <div class="m-4">
+                                <label>Father</label><br />
+                                <p class="text-primary">{{ $member->fathers_name }}</p>
+                                <p class="text-primary">{{ $member->Fathers_contact }}</p>
+                            </div>
+
+                            <div class="m-4">
+                                <label>Mothers</label><br />
+                                <p class="text-primary"> {{ $member->mothers_name }}</p>
+                                <p class="text-primary"> {{ $member->mothers_contact }}</p>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
                     </form>
 
 

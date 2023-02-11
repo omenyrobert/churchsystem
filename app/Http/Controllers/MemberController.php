@@ -112,30 +112,35 @@ class MemberController extends Controller
      */
     public function show($id)
     {
-        $member = Member::find($id)->map(function ($get_member) {
-            $ministries = array();
-            $ministry_positions = DB::table('member_position_ministry')->where('member_id', $get_member->id)->get();
+        $member = Member::find($id);
+        $ministries = array();
+            $ministry_positions = DB::table('member_position_ministry')->where('member_id', $member->id)->get();
             foreach ($ministry_positions as $min_pos) {
                 $min_pos_object = (object) [];
                 $min_pos_object->ministry = MinistryTypes::where('id', $min_pos->ministry_id)->first();
                 $min_pos_object->position = ChurchPositions::where('id', $min_pos->position_id)->first();
                 array_push($ministries, $min_pos_object);
             }
-            $get_member->ministries = $ministries;
-            return $get_member;
-        });
+            $member->ministries = $ministries;
         return view('members.show', compact('member'));
     }
 
     public function filter_ministry()
     {
-        request()->validate([
-            'ministryId' => 'required|integer',
-        ]);
+        // dd(request()->all());
         $ministry_members = DB::table('member_position_ministry')->where('ministry_id', request()->ministryId)->get();
         $members = array();
         foreach ($ministry_members as $min_member) {
             $member = Member::where('id', $min_member->member_id)->first();
+            $ministries = array();
+            $ministry_positions = DB::table('member_position_ministry')->where('member_id', $member->id)->get();
+            foreach ($ministry_positions as $min_pos) {
+                $min_pos_object = (object) [];
+                $min_pos_object->ministry = MinistryTypes::where('id', $min_pos->ministry_id)->first();
+                $min_pos_object->position = ChurchPositions::where('id', $min_pos->position_id)->first();
+                array_push($ministries, $min_pos_object);
+            }
+            $member->ministries = $ministries;
             array_push($members, $member);
         }
         $ministries = MinistryTypes::all();
@@ -146,13 +151,20 @@ class MemberController extends Controller
 
     public function filter_position()
     {
-        request()->validate([
-            'positionId' => 'required|integer',
-        ]);
-        $position_members = DB::table('member_position_ministry')->where('position_id', request()->ministryId)->get();
+        // dd(request()->all());
+        $position_members = DB::table('member_position_ministry')->where('position_id', request()->positionId)->get();
         $members = array();
         foreach ($position_members as $pos_member) {
             $member = Member::where('id', $pos_member->member_id)->first();
+            $ministries = array();
+            $ministry_positions = DB::table('member_position_ministry')->where('member_id', $member->id)->get();
+            foreach ($ministry_positions as $min_pos) {
+                $min_pos_object = (object) [];
+                $min_pos_object->ministry = MinistryTypes::where('id', $min_pos->ministry_id)->first();
+                $min_pos_object->position = ChurchPositions::where('id', $min_pos->position_id)->first();
+                array_push($ministries, $min_pos_object);
+            }
+            $member->ministries = $ministries;
             array_push($members, $member);
         }
         $ministries = MinistryTypes::all();
@@ -160,6 +172,17 @@ class MemberController extends Controller
         return view('members.index', compact('members', 'ministries', 'positions'))
             ->with('i');
     }
+
+
+    public function print(Request $request){
+
+        $members = json_decode($request->members);
+    
+        return view('members.print', compact('members'))->with('i');
+    
+    
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -217,7 +240,7 @@ class MemberController extends Controller
             'spouse_name' => request()->spouse_name,
             'spouse_contact' => request()->spouse_contact,
             'fathers_name' => request()->fathers_name,
-            'Fathers_contact' => request()->fathers_contact,
+            'Fathers_contact' => request()->Fathers_contact,
             'mothers_name' => request()->mothers_name,
             'mothers_contact' => request()->mothers_contact,
             'photo' => $input_url,

@@ -96,25 +96,25 @@
                                 </div>
                                 <div class="m-4">
                                     <label>Father's Name</label>
-                                    <input type="text" class="form-control mt-2" name="father_name"
+                                    <input type="text" class="form-control mt-2" name="fathers_name"
                                         placeholder="Enter Father's Name" value="{{$member->fathers_name}}">
                                 </div>
 
                                 <div class="m-4">
                                     <label>Father Contact</label>
-                                    <input type="text" class="form-control mt-2" name="father_contact"
-                                        placeholder="Enter Father's Contact" value="{{$member->fathers_contact}}">
+                                    <input type="text" class="form-control mt-2" name="Fathers_contact"
+                                        placeholder="Enter Father's Contact" value="{{$member->Fathers_contact}}">
                                 </div>
 
                                 <div class="m-4">
                                     <label>Mother's Name</label>
-                                    <input type="text" class="form-control mt-2" name="mother_name"
+                                    <input type="text" class="form-control mt-2" name="mothers_name"
                                         placeholder="Enter Mother's Name" value="{{$member->mothers_name}}">
                                 </div>
 
                                 <div class="m-4">
                                     <label>Mother Contact</label>
-                                    <input type="text" class="form-control mt-2" name="mother_contact"
+                                    <input type="text" class="form-control mt-2" name="mothers_contact"
                                         placeholder="Enter Mother's Contact" value="{{$member->mothers_contact}}">
                                 </div>
                             </div>

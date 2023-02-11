@@ -33,13 +33,14 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::prefix('members')->group(function () {
     Route::get('/', [MemberController::class, 'index'])->name('member.index');
     Route::post('/store', [MemberController::class, 'store'])->name('member.store');
+    Route::post('/print', [MemberController::class, 'print'])->name('member.print');
     Route::get('/show/{id}', [MemberController::class, 'show'])->name('member.show');
     Route::get('/edit/{id}', [MemberController::class, 'edit'])->name('member.edit');
     Route::put('/update/{id}', [MemberController::class, 'update'])->name('member.update');
     Route::post('/destroy/{member}', [MemberController::class, 'destroy'])->name('member.destroy');
     Route::get('/create', [MemberController::class, 'create'])->name('member.create');
-    Route::get('/position/{id}', [MemberController::class, 'filter_position'])->name('member.position');
-    Route::get('/ministry/{id}', [MemberController::class, 'filter_ministry'])->name('member.ministry');
+    Route::post('/position', [MemberController::class, 'filter_position'])->name('member.position');
+    Route::post('/ministry', [MemberController::class, 'filter_ministry'])->name('member.ministry');
 });
 
 Route::prefix('loans')->group(function () {

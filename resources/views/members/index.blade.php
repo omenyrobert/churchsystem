@@ -24,9 +24,26 @@
             <div class="col-md-10">
                 {{-- @include('layouts.cards') --}}
                 <div class="bg-white p-3 mt-2 shadow" style="border-radius: 15px; height: 120vh; overflow-y:auto;">
-                    
-                         <h3 style="color: #008ad3; ">members</h3>  
-                         <a href="{{ route('member.create') }}" class="text-decoration-none btn btn-primary">Add member</a>
+                    <div class="row">
+                        <div class="col-md-4"> <a href="{{ route('member.create') }}" class="text-decoration-none btn btn-primary">Add member</a></div>
+                        <div class="col-md-4"><h3 style="color: #008ad3; ">members</h3> </div>
+                        <div class="col-md-4">
+                            <form action="{{route('member.print')}}" method="POST">
+                                @csrf
+                                @php
+                                    $json_members = json_encode($members);
+                                  
+                                @endphp
+                           
+                                <input type="hidden" value="{{ $json_members }}" name="members"/>
+                                <button type="submit" class="btn btn-primary"><i
+                                    class="bi bi-printer"></i>Print</button>
+                            </form>
+                        </div>
+
+                    </div>
+                          
+                        
                          @if ($message = Session::get('success'))
                          <div class="alert alert-success">
                              <p>{{ $message }}</p>
@@ -34,11 +51,13 @@
                      @endif
                      <div class="row mt-5">
                         <div class="col-md-4">
-                            <form>
+                            <p>Filter by Position</p>
+                            <form action="{{ route('member.position') }}" method="POST">
+                                @csrf
                                 <div class="d-flex">
-                                    <select class="form-control">
+                                    <select class="form-control" name="positionId">
                                         @foreach ($positions as $position )
-                                        <option value="{{ $position?->id }}">
+                                        <option value="{{ $position?->id }}" >
                                             {{$position?->position}}
                                           </option>  
                                         @endforeach
@@ -49,13 +68,15 @@
                             </form>
 
                         </div>
-                        <div class="col-md-4">
-                            <input type="search" id="search" class="form-control" placeholder="Search here.."/>
+                        <div class="col-md-4 pt-4">
+                            <input type="search" id="search" class="form-control mt-3" placeholder="Search here.."/>
                         </div>
                         <div class="col-md-4">
-                            <form>
+                            Filter by Ministry
+                            <form action="{{ route('member.ministry') }}" class="mt-3" method="POST">
+                                @csrf
                                 <div class="d-flex">
-                                    <select class="form-control">
+                                    <select class="form-control" name="ministryId">
                                         @foreach ($ministries as $ministry )
                                         <option value="{{ $ministry?->id }}">
                                             {{$ministry?->ministry}}
@@ -104,7 +125,7 @@
                                         <td>{{ $member->contact1 }}</td>
                                                                            
                                         <td>{{ $member?->job }}</td>
-                                        <td>{{ $member?->date_of_birth }}</td>
+                                        <td>{{ $member?->date_of_birth }} - <span class="text-primary">{{ \Carbon\Carbon::parse($member->date_of_birth)->age }} Yrs<span></td>
                                        
                                         <td>
                                             @foreach ($member?->ministries as $position)
@@ -114,20 +135,10 @@
                                        
                                        
                                             <td><div class="d-flex"> <a href="{{ route('member.edit',$member->id) }}"><i class="bi bi-pencil m-1 text-warning"></i> </a>
+                                                
                                             <form action="{{ route('member.destroy',$member->id) }}" method="POST"> @csrf<button type="submit" style="margin-top: -5px;" class="btn btn-default"> <i class="bi bi-trash-fill m-1 text-danger"></i></button></form>
                                              <a href="{{ route('member.show',$member->id) }}"> <i class="bi bi-eye-fill m-1 text-primary"></i></a></div></td>
-                                        {{-- <td>
-                                            <form action="{{ route('destroy',$member->id) }}" method="POST">
-                                  
-                                                <a class="btn btn-info" href="{{ route('show',$member->id) }}">Show</a>
-                                   
-                                                <a class="btn btn-primary" href="{{ route('edit',$member->id) }}">Edit</a>
-                                  
-                                                @csrf
-                                                @method('DELETE')
-                                     
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form> --}}
+                                       
                                         </td>
                                     </tr>
                                     @endforeach
