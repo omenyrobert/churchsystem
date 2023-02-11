@@ -99,7 +99,7 @@ $all_incomes = \App\Models\Incomes::sum('income');
                                                 <tr>
                                                     <td class="tab-font">{{ $income->date }}</td>
                                                     <td class="tab-font">{{ $income?->type?->income_type }}</td>
-                                                    <td class="tab-font">{{ $income->income }}</td>
+                                                    <td class="tab-font">{{ number_format($income->income) }}</td>
                                                     <td class="tab-font">{{ $income->comment }}</td>
                                                     <td class="tab-font"><div class="d-flex"> <i class="bi bi-pencil m-1 text-warning cursor-pointer" role="button" data-bs-toggle="modal" data-bs-target="#edit{{ $income->id }}"></i><i class="bi bi-trash m-1 text-danger cursor-pointer" role="button" data-bs-toggle="modal" data-bs-target="#del{{ $income->id }}"></i>
                                                         

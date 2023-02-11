@@ -36,6 +36,19 @@ class ReportsController extends Controller
         return view('reports.index', compact('expense_types', 'expenses', 'income_types', 'incomes'));
     }
 
+
+// print funnction
+
+public function print(Request $request){
+
+    $expenses = json_decode($request->expenses);
+    $incomes = json_decode($request->incomes);
+
+    return view('reports.print', compact('expenses','incomes'));
+
+
+}
+
     /**
      * Show the filter.
      *
@@ -48,7 +61,7 @@ class ReportsController extends Controller
         $expense_types = ExpenseTypes::all();
         $incomes = [];
         $expenses = [];
-        if (!empty(request()->start_date) && !empty(request()->end_date) && !empty(request()->start_date) && !empty(request()->end_date)) {
+        if (!empty(request()->start_date) && !empty(request()->end_date) && !empty(request()->income_type) && !empty(request()->expense_type)) {
             $income_type = IncomeTypes::where('id', request()->income_type)->first();
             $expense_type = ExpenseTypes::where('id', request()->expense_type)->first();
             $start_date = request()->start_date;

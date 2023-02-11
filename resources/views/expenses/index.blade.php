@@ -100,7 +100,7 @@ $all_expense = \App\Models\Expenses::sum('expense');
                                                 <tr>
                                                     <td class="tab-font">{{ $expense->date }}</td>
                                                     <td class="tab-font">{{ $expense?->type?->expense_type }}</td>
-                                                    <td class="tab-font">{{ $expense->expense }}</td>
+                                                    <td class="tab-font">{{ number_format($expense->expense) }}</td>
                                                     <td class="tab-font">{{ $expense->comment }}</td>
                                                     <td class="tab-font"><div class="d-flex"> <i class="bi bi-pencil m-1 text-warning cursor-pointer" role="button" data-bs-toggle="modal" data-bs-target="#edit{{ $expense->id }}"></i><i class="bi bi-trash m-1 text-danger cursor-pointer" role="button" data-bs-toggle="modal" data-bs-target="#del{{ $expense->id }}"></i>
                                                         

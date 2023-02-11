@@ -1,3 +1,12 @@
+
+@php
+
+$all_incomes = \App\Models\Incomes::sum('income');  
+                                      
+$all_expense = \App\Models\Expenses::sum('expense');  
+@endphp
+
+
 <!doctype html>
 <html lang="en">
 
@@ -51,8 +60,20 @@
                         <div class="col-md-6">
                             <h3 style="color: #008ad3; ">Report</h3>
                         </div>
-                        <div class="col-md-6"><button class="btn btn-primary"><i
-                                    class="bi bi-printer"></i>Print</button></div>
+                        <div class="col-md-6">
+                            <form action="{{route('report.print')}}" method="POST">
+                                @csrf
+                                @php
+                                    $json_incomes = json_encode($incomes);
+                                    $json_expenses = json_encode($expenses);
+                                @endphp
+                                <input type="hidden" value="{{ $json_incomes }}" name="incomes"/>
+                                <input type="hidden" value="{{ $json_expenses }}" name="expenses"/>
+                                <button type="submit" class="btn btn-primary"><i
+                                    class="bi bi-printer"></i>Print</button>
+                            </form>
+
+                          </div>
 
                     </div>
                     <form action="{{route('report.filter')}}" method="POST">
@@ -96,6 +117,7 @@
                     <div class="row">
 
                         <div class="col-md-6 p-5">
+                            <h5 class="text-primary">All Incomes</h5>
                             <table class="table mt-3">
                                 <thead style="background-color: #bbd0d750; color: #008ad3;">
                                     <th class="tab-font">Date</th>
@@ -111,7 +133,7 @@
                                     <tr>
                                         <td class="tab-font">{{ $type?->date }}</td>
                                         <td class="tab-font">{{ $income?->type }}</td>
-                                        <td class="tab-font">{{ $type?->income }}</td>
+                                        <td class="tab-font">{{ number_format($type?->income) }}</td>
                                         <td class="tab-font">{{ $type?->comment }}</td>
                                     </tr>
                                 @endforeach
@@ -123,11 +145,19 @@
                                 </tr>
                                     @endif
                                     @endforeach
+                                    <tr>
+                                        <td >Total:</td>
+                                        <td></td>
+                                        <td><h4>{{ number_format($all_incomes) }}</h4></td>
+                                        <td></td>
+                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="col-md-6 p-5">
+                            <h5 class="text-primary">All Expenses</h5>
                             <table class="table mt-3">
                                 <thead style="background-color: #bbd0d750; color: #008ad3;">
                                     <th class="tab-font">Date</th>
@@ -143,7 +173,7 @@
                                     <tr>
                                         <td class="tab-font">{{ $type?->date }}</td>
                                         <td class="tab-font">{{ $expense?->type }}</td>
-                                        <td class="tab-font">{{ $type?->expense }}</td>
+                                        <td class="tab-font">{{ number_format($type?->expense) }}</td>
                                         <td class="tab-font">{{ $type?->comment }}</td>
                                     </tr>
                                 @endforeach
@@ -155,6 +185,12 @@
                                 </tr>
                                     @endif  
                                     @endforeach
+                                    <tr>
+                                        <td >Total:</td>
+                                        <td></td>
+                                        <td><h4>{{ number_format($all_expense) }}</h4></td>
+                                        <td></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

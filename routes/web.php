@@ -83,6 +83,7 @@ Route::prefix('expense')->group(function () {
 Route::prefix('report')->group(function () {
     Route::get('/', [ReportsController::class, 'index'])->name('report.index');
     Route::post('/filter', [ReportsController::class, 'filter'])->name('report.filter');
+    Route::post('/print', [ReportsController::class, 'print'])->name('report.print');
 
 });
 
