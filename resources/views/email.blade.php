@@ -24,6 +24,9 @@
     </div>
     <div style="height: 100vh;" class="col-md-5 my-3 p-5">
         <br/><br/><br/>
+        <div>
+            <a href="/" class="btn btn-primary">Back</a>
+        </div>
 <h1 class="text-center text-primary"><b>Church System</b></h1>
 <h5 class="text-center text-info"><b>Manage Your church The Best Way</b></h5>
 <br/>
