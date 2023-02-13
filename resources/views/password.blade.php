@@ -29,24 +29,22 @@
 <br/>
         <div class="bg-white shadow rounded-3 m-5 p-5">
             <div style="margin-left: 10px; text-align: center;">
-            <h4 class="text-primary">Login</h4>
+            <h4 class="text-primary">Email Your Email</h4>
         
             </div>
             <br/>
          <form class="p-3" method="POST" action="{{route('login')}}">
             @csrf
-           <label>Email</label>
+           <label>New Password</label>
            <br/>
-           <input type="email" class="form-control" placeholder="Enter Email" name="email">
+           <input type="password" class="form-control" placeholder="Enter New Password" name="new_password">
            <br/>
-           <label>Password</label>
+           <label>Confirm Password</label>
            <br/>
-           <input type="password" class="form-control" placeholder="Enter Password" name="password">
-           
-           <div style="float:right;" class="my-2">
-            <a href="/email">Forgot Password?</a>
-           </div>
-           <button type="submit"  class="form-control btn btn-primary">Login</button>
+           <input type="password" class="form-control" placeholder="Enter New Password" name="confirm_password">
+           <br/>
+
+           <button type="submit"  class="form-control btn btn-primary">Resset Password</button>
    
          </form>
         </div>

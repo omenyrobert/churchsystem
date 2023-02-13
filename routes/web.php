@@ -27,6 +27,14 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/email', function () {
+    return view('email');
+});
+
+Route::get('/password', function () {
+    return view('password');
+});
+
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 // members routes

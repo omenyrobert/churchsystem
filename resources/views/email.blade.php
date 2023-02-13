@@ -29,7 +29,7 @@
 <br/>
         <div class="bg-white shadow rounded-3 m-5 p-5">
             <div style="margin-left: 10px; text-align: center;">
-            <h4 class="text-primary">Login</h4>
+            <h4 class="text-primary">Enter Your Email</h4>
         
             </div>
             <br/>
@@ -39,14 +39,8 @@
            <br/>
            <input type="email" class="form-control" placeholder="Enter Email" name="email">
            <br/>
-           <label>Password</label>
-           <br/>
-           <input type="password" class="form-control" placeholder="Enter Password" name="password">
-           
-           <div style="float:right;" class="my-2">
-            <a href="/email">Forgot Password?</a>
-           </div>
-           <button type="submit"  class="form-control btn btn-primary">Login</button>
+
+           <button type="submit"  class="form-control btn btn-primary">Resset Password</button>
    
          </form>
         </div>
