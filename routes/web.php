@@ -27,6 +27,11 @@ Route::get('/', function () {
     return view('index');
 });
 
+
+Route::get('/code', function () {
+    return view('code');
+});
+
 Route::get('/email', function () {
     return view('email');
 });
