@@ -273,6 +273,7 @@ class MemberController extends Controller
     public function destroy($id)
     {
         $member = Member::find($id);
+        DB::table('member_position_ministry')->where('member_id', $member->id)->delete();
         $member->delete();
         return redirect()->route('member.index')
             ->with(['success' => 'member deleted successfully.']);
