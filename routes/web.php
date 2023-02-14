@@ -28,6 +28,11 @@ Route::get('/', function () {
     return view('index');
 });
 
+
+Route::get('/code', function () {
+    return view('code');
+});
+
 Route::get('/email', function () {
     return view('email');
 });
@@ -37,11 +42,13 @@ Route::get('/password', function () {
 });
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 
 Route::post('/send-mail',[PasswordController::class, 'send_mail'])->name('send.mail');
 
 // members routes
 Route::prefix('members')->group(function () {
+    Route::group(['middleware'=>'check.auth'],function(){
     Route::get('/', [MemberController::class, 'index'])->name('member.index');
     Route::post('/store', [MemberController::class, 'store'])->name('member.store');
     Route::post('/print', [MemberController::class, 'print'])->name('member.print');
@@ -53,50 +60,54 @@ Route::prefix('members')->group(function () {
     Route::post('/position', [MemberController::class, 'filter_position'])->name('member.position');
     Route::post('/ministry', [MemberController::class, 'filter_ministry'])->name('member.ministry');
 });
-
-Route::prefix('loans')->group(function () {
-    Route::get('/', [LoanController::class, 'index'])->name('loan.index');
-    Route::post('/store', [LoanController::class, 'store'])->name('loan.store');
-    Route::get('/show/{loan}', [LoanController::class, 'show'])->name('loan.show');
-    Route::get('/edit/{loan}', [LoanController::class, 'edit'])->name('loan.edit');
-    Route::put('/update/{loan}', [LoanController::class, 'update'])->name('loan.update');
 });
 
 
+
 Route::prefix('expense_type')->group(function () {
+    Route::group(['middleware'=>'check.auth'],function(){
     Route::get('/', [ExpenseTypesController::class, 'index'])->name('expense_type.index');
     Route::post('/', [ExpenseTypesController::class, 'store'])->name('expense_type.store');
     Route::put('/update', [ExpenseTypesController::class, 'update'])->name('expense_type.update');
     Route::post('/destroy/{expense_type}', [ExpenseTypesController::class, 'destroy'])->name('expense_type.destroy');
 });
+});
 
 
 Route::prefix('income_type')->group(function () {
+    Route::group(['middleware'=>'check.auth'],function(){
     Route::get('/', [IncomeTypesController::class, 'index'])->name('income_type.index');
     Route::post('/', [IncomeTypesController::class, 'store'])->name('income_type.store');
     Route::put('/update', [IncomeTypesController::class, 'update'])->name('income_type.update');
     Route::post('/destroy/{income_type}', [IncomeTypesController::class, 'destroy'])->name('income_type.destroy');
 });
+});
 
 Route::prefix('income')->group(function () {
+    Route::group(['middleware'=>'check.auth'],function(){
     Route::get('/', [IncomesController::class, 'index'])->name('income.index');
     Route::post('/', [IncomesController::class, 'store'])->name('income.store');
     Route::put('/update', [IncomesController::class, 'update'])->name('income.update');
     Route::post('/destroy/{income}', [IncomesController::class, 'destroy'])->name('income.destroy');
 });
+});
 
 Route::prefix('expense')->group(function () {
+    Route::group(['middleware'=>'check.auth'],function(){
     Route::get('/', [ExpensesController::class, 'index'])->name('expense.index');
     Route::post('/', [ExpensesController::class, 'store'])->name('expense.store');
     Route::put('/update', [ExpensesController::class, 'update'])->name('expense.update');
     Route::post('/destroy/{expense}', [ExpensesController::class, 'destroy'])->name('expense.destroy');
 });
+});
 
 Route::prefix('report')->group(function () {
+    Route::group(['middleware'=>'check.auth'],function(){
     Route::get('/', [ReportsController::class, 'index'])->name('report.index');
     Route::post('/filter', [ReportsController::class, 'filter'])->name('report.filter');
     Route::post('/print', [ReportsController::class, 'print'])->name('report.print');
 
+});
 });
 
 
@@ -104,6 +115,7 @@ Route::prefix('report')->group(function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->name('dashboard')->middleware('check.auth');;
+
 
 Route::get('/ministry-positions', [MinistryPositionController::class, 'ministry_positions']);
