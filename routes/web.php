@@ -11,6 +11,7 @@ use App\Http\Controllers\IncomesController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\MinistryController;
 use App\Http\Controllers\MinistryPositionController;
+use App\Http\Controllers\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ Route::get('/password', function () {
 });
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+Route::post('/send-mail',[PasswordController::class, 'send_mail'])->name('send.mail');
 
 // members routes
 Route::prefix('members')->group(function () {
