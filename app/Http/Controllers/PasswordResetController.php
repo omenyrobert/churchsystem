@@ -30,7 +30,7 @@ class PasswordResetController extends Controller
             DB::table('password_resets')->insert([
                 'email' => $request->email,
                 'token' => $token,
-                'created_at' => Carbon::now()
+                'created_at' => \Carbon\Carbon::now()
             ]);
 
             Mail::to($request->email)

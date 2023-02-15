@@ -11,7 +11,7 @@ use App\Http\Controllers\IncomesController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\MinistryController;
 use App\Http\Controllers\MinistryPositionController;
-use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\PasswordResetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ Route::get('/password', function () {
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 
-Route::post('/send-mail',[PasswordController::class, 'send_mail'])->name('send.mail');
+Route::post('/send-mail',[PasswordResetController::class, 'send_mail'])->name('send.mail');
 
 // members routes
 Route::prefix('members')->group(function () {
