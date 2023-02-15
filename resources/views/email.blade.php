@@ -37,7 +37,7 @@
 
                     </div>
                     <br />
-                    <form class="p-3" method="POST" action="{{ route('login') }}">
+                    <form class="p-3" method="POST" action="{{ route('send.mail') }}">
                         @csrf
                         <label>Email</label>
                         <br />
