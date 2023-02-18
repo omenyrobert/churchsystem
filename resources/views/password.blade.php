@@ -15,44 +15,59 @@
 
 <body>
     <div class="container-fluid">
-<div class="row">
-    {{-- <div class="col-md-7" style="background-image: url('https://res.cloudinary.com/dtlkiv19d/image/upload/v1667468485/ada2_hvetzs.jpg'); border-top-right: 25%; border-bottom-right: 25%; background-size: 100%;"> --}}
+        <div class="row">
+            {{-- <div class="col-md-7" style="background-image: url('https://res.cloudinary.com/dtlkiv19d/image/upload/v1667468485/ada2_hvetzs.jpg'); border-top-right: 25%; border-bottom-right: 25%; background-size: 100%;"> --}}
 
-        <div class="col-md-7" style="background-image: url('https://res.cloudinary.com/dtlkiv19d/image/upload/v1667473496/aas_dptbfp.jpg'); background-size: cover;">
-   
+            <div class="col-md-7"
+                style="background-image: url('https://res.cloudinary.com/dtlkiv19d/image/upload/v1667473496/aas_dptbfp.jpg'); background-size: cover;">
 
-    </div>
-    <div style="height: 100vh;" class="col-md-5 my-3 p-5">
-        <br/><br/><br/>
-<h1 class="text-center text-primary"><b>Church System</b></h1>
-<h5 class="text-center text-info"><b>Manage Your church The Best Way</b></h5>
-<br/>
-        <div class="bg-white shadow rounded-3 m-5 p-5">
-            <div style="margin-left: 10px; text-align: center;">
-            <h4 class="text-primary">Email Your Email</h4>
-        
+
             </div>
-            <br/>
-         <form class="p-3" method="POST" action="{{route('login')}}">
-            @csrf
-           <label>New Password</label>
-           <br/>
-           <input type="password" class="form-control" placeholder="Enter New Password" name="new_password">
-           <br/>
-           <label>Confirm Password</label>
-           <br/>
-           <input type="password" class="form-control" placeholder="Enter New Password" name="confirm_password">
-           <br/>
+            <div style="height: 100vh;" class="col-md-5 my-3 p-5">
+                <br /><br /><br />
+                <h1 class="text-center text-primary"><b>Church System</b></h1>
+                <h5 class="text-center text-info"><b>Manage Your church The Best Way</b></h5>
+                <br />
+                <div class="bg-white shadow rounded-3 m-5 p-5">
+                    <div style="margin-left: 10px; text-align: center;">
+                        <h4 class="text-primary">Email Your Email</h4>
 
-           <button type="submit"  class="form-control btn btn-primary">Resset Password</button>
-   
-         </form>
+                    </div>
+                    <br />
+                    <form class="p-3" method="POST" action="{{ route('password.reset') }}">
+                        @csrf
+                        <label>New Password</label>
+                        <br />
+                        <input type="password" class="form-control" placeholder="Enter New Password"
+                            @error('password') is-invalid @enderror name="password">
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                        <br />
+                        <label>Confirm Password</label>
+                        <br />
+                        <input type="password" class="form-control" placeholder="Enter New Password"
+                            @error('password') is-invalid @enderror name="password_confirmation">
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                        <br />
+                        <input type="hidden" name="email" value="{{ $email }}">
+                        <input type="hidden" name="token" value="{{ $token }}">
+
+                        <button type="submit" class="form-control btn btn-primary">Resset Password</button>
+
+                    </form>
+                </div>
+            </div>
+
+
+
         </div>
-       </div>
-   
-   
-
-</div>
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
 

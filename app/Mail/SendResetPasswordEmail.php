@@ -18,9 +18,10 @@ class SendResetPasswordEmail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    protected $details;
+    public function __construct($details)
     {
-        //
+        $this->details = $details;
     }
 
     /**
@@ -44,6 +45,9 @@ class SendResetPasswordEmail extends Mailable
     {
         return new Content(
             view: 'code',
+            with: [
+                'details' => $this->details
+            ]
         );
     }
 

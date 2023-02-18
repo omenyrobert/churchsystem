@@ -37,14 +37,13 @@ Route::get('/email', function () {
     return view('email');
 });
 
-Route::get('/password', function () {
-    return view('password');
-});
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 
 Route::post('/send-mail',[PasswordResetController::class, 'send_mail'])->name('send.mail');
+Route::get('/password/{email}/{token}', [PasswordResetController::class,'display_form'])->name('password.display');
+Route::get('/password-reset/{email}/{token}', [PasswordResetController::class,'submitResetPasswordForm'])->name('password.reset');
 
 // members routes
 Route::prefix('members')->group(function () {

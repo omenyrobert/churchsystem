@@ -44,7 +44,7 @@
                         <input type="email" class="form-control" placeholder="Enter Email" name="email">
                         <br />
 
-                        <button type="submit" class="form-control btn btn-primary">Resset Password</button>
+                        <button type="submit" class="form-control btn btn-primary">Submit</button>
 
                     </form>
                 </div>
