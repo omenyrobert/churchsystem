@@ -11,17 +11,17 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'email' => 'required',
             'password' => 'required'
         ]);
 
         $user = User::where('email', $request->email)->first();
 
-        if(!is_null($user) && Hash::check($request->password, $user->password)){
+        if (!is_null($user) && Hash::check($request->password, $user->password)) {
             auth()->attempt(['email' => $request->email, 'password' => $request->password]);
             return redirect()->route('dashboard');
-        } else{
+        } else {
             // return view('dashboard',compact('user'));
 
             return $user;
@@ -30,7 +30,11 @@ class LoginController extends Controller
     }
     public function logout()
     {
-      auth()->logout();
-      return view('index');
-    } 
+        if (auth()->check()) {
+            auth()->logout();
+            return view('index');
+        } else {
+            return view('index');
+        }
+    }
 }

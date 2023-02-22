@@ -26,7 +26,7 @@ use App\Http\Controllers\PasswordResetController;
 
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('check.auth');
 
 Route::post('/send-mail', [PasswordResetController::class, 'send_mail'])->name('send.mail');
 Route::get('/password/{email}/{token}', [PasswordResetController::class, 'display_form'])->name('password.display');
