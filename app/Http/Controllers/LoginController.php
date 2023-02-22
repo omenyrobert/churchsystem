@@ -30,11 +30,7 @@ class LoginController extends Controller
     }
     public function logout()
     {
-        if (auth()->check()) {
-            auth()->logout();
-            return view('index');
-        } else {
-            return view('index');
-        }
+        auth()->logout();
+        return view('index');
     }
 }
