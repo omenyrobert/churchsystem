@@ -14,7 +14,7 @@
     @php
         $email = $details->email;
         $token = $details->token;
-        $url = 'http://127.0.0.1:8000' . '/password' . '/' . $email . '/' . $token;
+        $url = env('APP_URL') . '/password' . '/' . $email . '/' . $token;
     @endphp
     <center>
         <div style="height: 40vh;" class="col-md-5 m-3 p-3 bg-white shadow rounded">
